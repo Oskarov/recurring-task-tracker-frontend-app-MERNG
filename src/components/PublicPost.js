@@ -4,13 +4,13 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 
 const PublicPost= ({post: { body, id, username, importance, color, flag, repetitionType, repetitionRange, createdAt, updatedAt, failures, successes, comments, commentsCount, likes, likesCount}}) => {
-
+    
     const likePost = () => {
-
-    }
-
+        
+    }   
+    
     const commentPost = () => {
-
+        
     }
     
     return (
