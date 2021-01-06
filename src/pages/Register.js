@@ -2,51 +2,59 @@ import React, {useState} from 'react';
 import gql from 'graphql-tag';
 import {useMutation} from '@apollo/react-hooks'
 import {Form, Button} from "semantic-ui-react";
+import {useForm} from "../util/hooks";
 
 function Register(props) {
 
-    const [values, setValues] = useState({
+    const [errors, setErrors] = useState({});
+
+    const { onChange, onSubmit, values } = useForm(registerUser, {
         username: '',
         email: '',
         password: '',
         confirmedPassword: ''
-    });
-
+    })
 
     const [addUser, {loading}] = useMutation(REGISTER_USER, {
         update(proxy, result) {
-            console.log(result);
+            props.history.push('/');
         },
         variables: values,
         onError(ApolloError) {
-            console.log(ApolloError);
+            transferErrors(ApolloError.graphQLErrors[0].extensions.exception.errors);
         }
     })
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        addUser();
+    const transferErrors = (errors) => {
+        let errorObj = {}
+        for (const [key, value] of Object.entries(errors)) {
+            errorObj[key] = {
+                error: {
+                    content: value,
+                }
+            }
+        }
+        setErrors(errorObj);
     }
 
-    const onChange = (e) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
-        })
+    function registerUser(){
+        addUser();
     }
 
     return (
         <div className="form-container">
-            <Form onSubmit={onSubmit} noValidate>
+            <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
                 <h1>Регистрация</h1>
                 <Form.Input
-                    label="Nickname"
+                    {...errors.username}
+                    label="Username"
                     placeholder="user1990"
                     name="username"
                     value={values.username}
                     onChange={onChange}
                 />
                 <Form.Input
+                    {...errors.email}
                     label="Email"
                     placeholder="user1990@1990.com"
                     name="email"
@@ -54,6 +62,7 @@ function Register(props) {
                     onChange={onChange}
                 />
                 <Form.Input
+                    {...errors.password}
                     label="Пароль"
                     placeholder="********"
                     name="password"
@@ -62,6 +71,7 @@ function Register(props) {
                     type="password"
                 />
                 <Form.Input
+                    {...errors.confirmedPassword}
                     label="Подтвердите пароль"
                     placeholder="********"
                     name="confirmedPassword"
