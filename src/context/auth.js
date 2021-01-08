@@ -1,5 +1,13 @@
 import React, {useReducer, createContext} from "react";
 
+const initialState = {
+    user: null
+}
+
+if (localStorage.getItem('jwtToken')){
+    //TODO do something with token
+}
+
 const AuthContext = createContext({
     user: null,
     login: userData => {
@@ -26,9 +34,10 @@ function authReducer(state, action) {
 }
 
 function AuthProvider(props) {
-    const [state, dispatch] = useReducer(authReducer, {user: null});
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
     function login(userData){
+        localStorage.setItem("jwtToken", userData.token);
         dispatch({
             type: 'LOGIN',
             payload: userData
@@ -36,6 +45,7 @@ function AuthProvider(props) {
     }
 
     function logout(){
+        localStorage.removeItem("jwtToken");
         dispatch({
             type: 'LOGOUT',
         })
