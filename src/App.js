@@ -4,6 +4,7 @@ import './App.css';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import NewTask from "./pages/NewTask";
 import MenuBar from "./components/Menu";
 import {Container} from "semantic-ui-react";
 import {AuthProvider} from "./context/auth";
@@ -19,6 +20,7 @@ function App() {
                     <Route exact path='/' component={Home}/>
                     <AuthRoute exact path='/register' component={Register}/>
                     <AuthRoute exact path='/login' component={Login}/>
+                    <Route exact path='/new-task' component={NewTask}/>
                 </Router>
             </Container>
         </AuthProvider>
