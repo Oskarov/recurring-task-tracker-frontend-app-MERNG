@@ -1,14 +1,15 @@
 import React from 'react';
-import PostForm from "../components/PostForm";
+import TaskForm from "../components/TaskForm";
 
 function NewTask(props) {
 
     return (
         <div>
             <h1>Создать задачу</h1>
-            <PostForm/>
+            <TaskForm/>
         </div>
     );
+
 }
 
 export default NewTask;
