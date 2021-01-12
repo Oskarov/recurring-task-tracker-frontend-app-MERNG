@@ -10,7 +10,6 @@ import {Container} from "semantic-ui-react";
 import {AuthProvider} from "./context/auth";
 import AuthRoute from "./util/AuthRoute";
 
-
 function App() {
     return (
         <AuthProvider>

@@ -1,12 +1,12 @@
 import React, {useReducer, createContext} from "react";
+import gql from "graphql-tag";
+import {useQuery} from '@apollo/react-hooks';
 
 const initialState = {
     user: null
 }
 
-if (localStorage.getItem('jwtToken')){
-    //TODO do something with token
-}
+
 
 const AuthContext = createContext({
     user: null,

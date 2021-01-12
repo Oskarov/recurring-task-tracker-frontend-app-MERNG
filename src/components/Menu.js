@@ -1,11 +1,23 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import { Menu, Segment } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
 import {AuthContext} from "../context/auth";
+import {useQuery} from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 function MenuBar(){
 
-    const {user, logout} = useContext(AuthContext);
+    const {user, login, logout} = useContext(AuthContext);
+
+    const {data} = useQuery(GET_USER);
+
+    useEffect(() => {
+        if (typeof data !== 'undefined'){
+            login(data.getUser);
+        }
+    }, [data]);
+
+
 
     const pathname = window.location.pathname;
     let path = '';
@@ -83,5 +95,17 @@ function MenuBar(){
 
     return menuBar;
 }
+
+const GET_USER = gql`
+    query{
+        getUser{
+            id
+            username
+            email
+            token
+            createdAt
+        }
+    }
+`
 
 export default MenuBar;
