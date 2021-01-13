@@ -3,6 +3,7 @@ import {Form, Button} from "semantic-ui-react";
 import {useForm} from "../util/hooks";
 import gql from 'graphql-tag';
 import {useMutation} from '@apollo/react-hooks'
+import {CREATE_TASK_MUTATION, FETCH_POSTS_QUERY} from "../util/graphql";
 
 const importanceOptions = [
     {key: '0', text: 'Обыденная', value: 0},
@@ -16,7 +17,7 @@ const repetitionOptions = [
 ]
 
 const TaskForm = (props) => {
-     const {values, onChange, onSubmit} = useForm(savePost, {
+    const {values, onChange, onSubmit} = useForm(savePost, {
         body: '',
         isPrivate: true,
         importance: 0,
@@ -28,18 +29,25 @@ const TaskForm = (props) => {
 
     const [errors, setErrors] = useState({});
 
-    const [createTask, { error }] = useMutation(CREATE_TASK_MUTATION, {
+    const [createTask, {error}] = useMutation(CREATE_TASK_MUTATION, {
         variables: values,
-        update(_, result){
-            console.log(result);
+        update(proxy, result) {
+            const cache = proxy.readQuery({
+                query: FETCH_POSTS_QUERY
+            });
+            cache.getPosts = [result.data.createPost, ...cache.getPosts];
+            proxy.writeQuery({
+                query: FETCH_POSTS_QUERY,
+                data: cache
+            });
+            props.history.push('/');
         },
         onError(ApolloError) {
-            console.log(ApolloError);
-                transferErrors(ApolloError);
+            transferErrors(ApolloError);
         }
     });
 
-   function savePost(){
+    function savePost() {
         createTask();
     }
 
@@ -127,32 +135,5 @@ const TaskForm = (props) => {
         </Form>
     )
 }
-
-const CREATE_TASK_MUTATION = gql`
-    mutation createPost(
-        $body: String!
-        $isPrivate: Boolean
-        $importance: Int
-        $color: String
-        $flag: String
-        $repetitionType: Int
-        $repetitionRange: Int
-    ){
-        createPost( postInput: {
-            body: $body
-            isPrivate: $isPrivate
-            importance: $importance
-            color: $color
-            flag: $flag
-            repetitionType: $repetitionType
-            repetitionRange: $repetitionRange
-        }
-        ){
-            id
-            body
-            createdAt
-        }
-    }
-`
 
 export default TaskForm;

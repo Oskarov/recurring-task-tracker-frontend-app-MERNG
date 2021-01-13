@@ -3,11 +3,11 @@ import {useQuery} from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {Grid} from "semantic-ui-react";
 import PublicPost from "../components/PublicPost";
+import { FETCH_POSTS_QUERY} from "../util/graphql";
 
 function Home(props) {
     const {loading, data} = useQuery(FETCH_POSTS_QUERY);
     const posts = !!data ? data.getPosts: '';
-    console.log(posts);
     return (
         <div>
             <h3>Последние записи</h3>
@@ -30,27 +30,5 @@ function Home(props) {
         </div>
     );
 }
-
-const FETCH_POSTS_QUERY = gql`
-    query{
-  getPosts{
-    id
-    body 
-    createdAt 
-    username 
-    likesCount
-    likes {
-      username
-    }
-    commentsCount
-    comments {
-      id 
-      username 
-      createdAt 
-      body
-    }
-  }
-} 
-`
 
 export default Home;

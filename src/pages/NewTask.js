@@ -6,7 +6,7 @@ function NewTask(props) {
     return (
         <div>
             <h1>Создать задачу</h1>
-            <TaskForm/>
+            <TaskForm history={props.history}/>
         </div>
     );
 
