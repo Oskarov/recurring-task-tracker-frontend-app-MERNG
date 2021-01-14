@@ -1,6 +1,5 @@
 import React from 'react';
 import {useQuery} from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import {Grid} from "semantic-ui-react";
 import PublicPost from "../components/PublicPost";
 import { FETCH_POSTS_QUERY} from "../util/graphql";

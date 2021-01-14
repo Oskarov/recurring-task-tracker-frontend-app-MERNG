@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Form, Button} from "semantic-ui-react";
 import {useForm} from "../util/hooks";
-import gql from 'graphql-tag';
 import {useMutation} from '@apollo/react-hooks'
 import {CREATE_TASK_MUTATION, FETCH_POSTS_QUERY} from "../util/graphql";
 
@@ -43,7 +42,8 @@ const TaskForm = (props) => {
             props.history.push('/');
         },
         onError(ApolloError) {
-            transferErrors(ApolloError);
+            console.log(ApolloError.graphQLErrors[0]);
+            transferErrors(ApolloError.graphQLErrors[0].extensions.exception.errors);
         }
     });
 
@@ -67,13 +67,14 @@ const TaskForm = (props) => {
     return (
         <Form onSubmit={onSubmit}>
             <Form.Input
+                {...errors.body}
                 name="body"
                 label="Задача"
                 placeholder="сделать очередной шаг"
                 onChange={onChange}
                 value={values.body}
             />
-            <Form.Group inline onChange={onChange}>
+            <Form.Group {...errors.isPrivate} inline onChange={onChange}>
                 <label>Статус</label>
                 <Form.Radio
                     name="isPrivate"
@@ -91,6 +92,7 @@ const TaskForm = (props) => {
                 />
             </Form.Group>
             <Form.Select
+                {...errors.importance}
                 fluid
                 label='Важность'
                 name="importance"
@@ -100,6 +102,7 @@ const TaskForm = (props) => {
                 placeholder='Обыденная важность'
             />
             <Form.Select
+                {...errors.repetitionType}
                 fluid
                 name="repetitionType"
                 label='Тип повторений'
@@ -109,6 +112,7 @@ const TaskForm = (props) => {
                 placeholder='Как сичтать повторения?'
             />
             <Form.Field
+                {...errors.repetitionRange}
                 label='Диапазон повторений в днях'
                 placeholder='1'
                 control='input'
@@ -118,6 +122,7 @@ const TaskForm = (props) => {
                 type='number'
                 max={365}/>
             <Form.Input
+                {...errors.color}
                 name="color"
                 label="Цвет"
                 value={values.color}
@@ -125,6 +130,7 @@ const TaskForm = (props) => {
                 placeholder="#ffffff"
             />
             <Form.Input
+                {...errors.flag}
                 name="flag"
                 label="Тег"
                 value={values.flag}
