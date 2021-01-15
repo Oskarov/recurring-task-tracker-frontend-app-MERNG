@@ -74,7 +74,7 @@ const TaskForm = (props) => {
                 onChange={onChange}
                 value={values.body}
             />
-            <Form.Group {...errors.isPrivate} inline onChange={onChange}>
+            <Form.Group inline onChange={onChange}>
                 <label>Статус</label>
                 <Form.Radio
                     name="isPrivate"

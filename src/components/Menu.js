@@ -32,6 +32,9 @@ function MenuBar(){
         case '/new-task':
             path = 'newTask';
             break;
+        case '/my-tasks':
+            path = 'myTasks';
+            break;
         default:
             path = 'home';
     }
@@ -46,6 +49,14 @@ function MenuBar(){
                 active
                 as={Link}
                 to="/"
+            />
+            <Menu.Item
+                name='Мои задачи'
+                menuName='myTasks'
+                active={activeItem === 'myTasks'}
+                onClick={handleItemClick}
+                as={Link}
+                to="/my-tasks"
             />
             <Menu.Menu position='right'>
                 <Menu.Item

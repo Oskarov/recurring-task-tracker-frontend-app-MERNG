@@ -1,6 +1,6 @@
 import React from 'react';
 import {useQuery} from '@apollo/react-hooks';
-import {Grid} from "semantic-ui-react";
+import {Grid, Transition} from "semantic-ui-react";
 import PublicPost from "../components/PublicPost";
 import { FETCH_POSTS_QUERY} from "../util/graphql";
 
@@ -9,7 +9,7 @@ function Home(props) {
     const posts = !!data ? data.getPosts: '';
     return (
         <div>
-            <h3>Последние записи</h3>
+            <h3>Последние задачи</h3>
 
             <Grid columns={3}>
                 <Grid.Row>
@@ -18,11 +18,14 @@ function Home(props) {
                             <h2>Загрузка записей</h2>
                         </div>
                     ) : (
-                        posts && posts.map(post => (
+                        <Transition.Group>
+                            {posts && posts.map(post => (
                             <Grid.Column key={post.id} style={{marginBottom: 20}}>
                                 <PublicPost post={post}/>
                             </Grid.Column>
-                        ))
+                            ))}
+                        </Transition.Group>
+
                     )}
                 </Grid.Row>
             </Grid>
