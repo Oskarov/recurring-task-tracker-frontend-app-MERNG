@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {Grid, Transition} from "semantic-ui-react";
+import {Grid} from "semantic-ui-react";
 import PublicPost from "../components/PublicPost";
 import {useQuery} from "@apollo/react-hooks";
 import {AuthContext} from "../context/auth";
@@ -10,11 +10,6 @@ const MyTasks = (props) => {
     const {loading, data} = useQuery(FETCH_MY_POSTS_QUERY, {variables:user});
     let posts = !!data ? data.getUserPosts: '';
 
-    useEffect(() => {
-        if (typeof data !== 'undefined'){
-            posts = !!data ? data.getPosts: '';
-        }
-    }, [data]);
 
     return (
         <div>
