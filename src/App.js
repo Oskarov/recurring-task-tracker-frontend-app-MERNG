@@ -11,6 +11,7 @@ import {AuthProvider} from "./context/auth";
 import AuthRoute from "./util/AuthRoute";
 import UserRoute from "./util/UserRoute";
 import MyTasks from "./pages/MyTasks";
+import Error from "./pages/Error";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <AuthRoute exact path='/login' component={Login}/>
                     <UserRoute exact path='/new-task' component={NewTask}/>
                     <UserRoute exact path='/my-tasks' component={MyTasks}/>
+                    <Route  component={Error} />
                 </Router>
             </Container>
         </AuthProvider>

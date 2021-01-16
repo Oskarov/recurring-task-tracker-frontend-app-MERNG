@@ -9,16 +9,14 @@ function MenuBar(){
 
     const {user, login, logout} = useContext(AuthContext);
 
-    const {data} = useQuery(GET_USER);
+    const {data, error} = useQuery(GET_USER);
 
     useEffect(() => {
         if (typeof data !== 'undefined'){
             login(data.getUser);
         }
     }, [data]);
-
-
-
+    
     const pathname = window.location.pathname;
     let path = '';
 
@@ -47,7 +45,9 @@ function MenuBar(){
             <Menu.Item
                 name={user.username}
                 active
+                menuName='home'
                 as={Link}
+                onClick={handleItemClick}
                 to="/"
             />
             <Menu.Item
