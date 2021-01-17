@@ -7,7 +7,7 @@ export const useForm = (callback, initialState = {}) => {
         setValues({
             ...values,
             [name]: value
-        })
+        });
     }
 
     const onSubmit = (e) => {

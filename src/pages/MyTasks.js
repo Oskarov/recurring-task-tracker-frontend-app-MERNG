@@ -1,11 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Grid} from "semantic-ui-react";
-import PublicPost from "../components/PublicPost";
+import PrivatePost from "../components/PrivatePost";
 import {useQuery} from "@apollo/react-hooks";
 import {AuthContext} from "../context/auth";
 import gql from "graphql-tag";
 
-const MyTasks = (props) => {
+const MyTasks = () => {
     const {user} = useContext(AuthContext);
     const {loading, data} = useQuery(FETCH_MY_POSTS_QUERY, {variables:user});
     let posts = !!data ? data.getUserPosts: '';
@@ -24,7 +24,7 @@ const MyTasks = (props) => {
                     ) : (
                             posts && posts.map(post => (
                                 <Grid.Column key={post.id} style={{marginBottom: 20}}>
-                                    <PublicPost post={post}/>
+                                    <PrivatePost post={post}/>
                                 </Grid.Column>
                             ))
 
@@ -45,7 +45,14 @@ export const FETCH_MY_POSTS_QUERY = gql`
             id
             body
             createdAt
+            updatedAt
+            isPrivate
             username
+            importance
+            flag
+            color
+            repetitionType
+            repetitionRange
             likesCount
             likes {
                 username

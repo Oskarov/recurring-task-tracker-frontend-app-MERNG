@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import Home from "./pages/Home";
@@ -19,12 +19,14 @@ function App() {
             <Container>
                 <Router>
                     <MenuBar/>
-                    <Route exact path='/' component={Home}/>
-                    <AuthRoute exact path='/register' component={Register}/>
-                    <AuthRoute exact path='/login' component={Login}/>
-                    <UserRoute exact path='/new-task' component={NewTask}/>
-                    <UserRoute exact path='/my-tasks' component={MyTasks}/>
-                    <Route  component={Error} />
+                    <Switch>
+                        <Route exact path='/' component={Home}/>
+                        <AuthRoute exact path='/register' component={Register}/>
+                        <AuthRoute exact path='/login' component={Login}/>
+                        <UserRoute exact path='/new-task' component={NewTask}/>
+                        <UserRoute exact path='/my-tasks' component={MyTasks}/>
+                        <Route component={Error}/>
+                    </Switch>
                 </Router>
             </Container>
         </AuthProvider>

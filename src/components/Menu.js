@@ -38,21 +38,21 @@ function MenuBar(){
     }
 
     const [activeItem, setActiveItem] = useState(path);
-    const handleItemClick = (e, { menuName }) => setActiveItem(menuName);
+    const handleItemClick = (e, { menuname }) => setActiveItem(menuname);
 
     const menuBar = user ? (
         <Menu pointing secondary color="teal" size="massive">
             <Menu.Item
                 name={user.username}
                 active
-                menuName='home'
+                menuname='home'
                 as={Link}
                 onClick={handleItemClick}
                 to="/"
             />
             <Menu.Item
                 name='Мои задачи'
-                menuName='myTasks'
+                menuname='myTasks'
                 active={activeItem === 'myTasks'}
                 onClick={handleItemClick}
                 as={Link}
@@ -61,7 +61,7 @@ function MenuBar(){
             <Menu.Menu position='right'>
                 <Menu.Item
                     name='Добавить задачу'
-                    menuName='newTask'
+                    menuname='newTask'
                     active={activeItem === 'newTask'}
                     onClick={handleItemClick}
                     as={Link}
@@ -77,7 +77,7 @@ function MenuBar(){
         <Menu pointing secondary color="teal" size="massive">
             <Menu.Item
                 name='Главная'
-                menuName='home'
+                menuname='home'
                 active={activeItem === 'home'}
                 onClick={handleItemClick}
                 as={Link}
@@ -86,7 +86,7 @@ function MenuBar(){
             <Menu.Menu position='right'>
                 <Menu.Item
                     name='Войти'
-                    menuName='login'
+                    menuname='login'
                     active={activeItem === 'login'}
                     onClick={handleItemClick}
                     as={Link}
@@ -94,7 +94,7 @@ function MenuBar(){
                 />
                 <Menu.Item
                     name='Зарегистрироваться'
-                    menuName='register'
+                    menuname='register'
                     active={activeItem === 'register'}
                     onClick={handleItemClick}
                     as={Link}

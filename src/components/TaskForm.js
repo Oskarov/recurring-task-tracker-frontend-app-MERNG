@@ -42,7 +42,6 @@ const TaskForm = (props) => {
             props.history.push('/');
         },
         onError(ApolloError) {
-            console.log(ApolloError.graphQLErrors[0]);
             transferErrors(ApolloError.graphQLErrors[0].extensions.exception.errors);
         }
     });
@@ -74,21 +73,21 @@ const TaskForm = (props) => {
                 onChange={onChange}
                 value={values.body}
             />
-            <Form.Group inline onChange={onChange}>
+            <Form.Group inline>
                 <label>Статус</label>
                 <Form.Radio
                     name="isPrivate"
                     label="Приватная"
                     value={true}
                     onChange={onChange}
-                    checked={values.isPrivate == true ? true : false}
+                    checked={values.isPrivate}
                 />
                 <Form.Radio
                     name="isPrivate"
                     label="Публичная"
                     value={false}
                     onChange={onChange}
-                    checked={values.isPrivate == false ? true : false}
+                    checked={!values.isPrivate}
                 />
             </Form.Group>
             <Form.Select
