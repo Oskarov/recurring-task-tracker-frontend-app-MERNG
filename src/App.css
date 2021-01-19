@@ -1,0 +1,16 @@
+.public-card-cont{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.public-card-delete{
+    width: 28.28px;
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.public-card-delete > i{
+    margin: 0!important;
+}
