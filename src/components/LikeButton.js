@@ -12,13 +12,12 @@ const LikeButton = ({likesCount, likes, id}) => {
 
     const [liked, setLiked] = useState(false)
 
-    useEffect(() => {
-        setLiked(user && likes.find(like => like.username == user.username))
-    }, [user, liked])
-
-    const likePost = () => {
-
-    }
+    const [likePost] = useMutation(LIKE_TASK_MUTATION, {
+        update() {
+            setLiked(!liked);
+        },
+        variables: {postId: id}
+    });
 
     const heart = liked ? <Icon name='heart'/> : <Icon name='heart outline'/>;
 
@@ -42,6 +41,15 @@ const LikeButton = ({likesCount, likes, id}) => {
 }
 
 const LIKE_TASK_MUTATION = gql`
+    mutation likePost($postId: ID!){
+        likePost(postId: $postId){
+            id
+            likes{
+                id username
+            }
+            likesCount
+        }
+    }
 `
 
 export default LikeButton
