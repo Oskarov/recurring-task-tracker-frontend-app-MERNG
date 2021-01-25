@@ -1,6 +1,9 @@
 import React from 'react'
 import gql from "graphql-tag";
+import moment from "moment";
 import {useQuery} from '@apollo/react-hooks';
+import {Card, Grid, Image} from "semantic-ui-react";
+import LikeButton from "../components/LikeButton";
 
 const SingleTask = (props) => {
 
@@ -19,15 +22,36 @@ const SingleTask = (props) => {
     if (loading) {
         postMarkup = <p>Загрузка...</p>
     } else {
-       const {id, body, createdAt, updatedAt, username} = data.getPost;
-       postMarkup = <div>
-           {createdAt}{body}
-       </div>
+        const {id, body, createdAt, updatedAt, username, likesCount, likes} = data.getPost;
+        postMarkup = <div>
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column width={6}>
+                        <Card fluid>
+                            <Card.Content>
+                                <Image
+                                    src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                                    size="mini"
+                                    floated='left'/>
+                                <Card.Header>{username}</Card.Header>
+                                <Card.Meta>{moment(updatedAt).fromNow()}</Card.Meta>
+                            </Card.Content>
+                        </Card>
+                        <h1>{body}</h1>
+                        <hr/>
+                        <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        1245678
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        </div>
     }
 
 
-    return(
-        <div className="1245678">
+    return (
+        <div>
             {postMarkup}
         </div>
     )

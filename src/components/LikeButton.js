@@ -6,7 +6,7 @@ import {AuthContext} from "../context/auth";
 import {Link} from "react-router-dom";
 
 
-const LikeButton = ({likesCount, likes, id}) => {
+const LikeButton = ({likesCount, likes, id, username}) => {
 
     const {user} = useContext(AuthContext);
 
@@ -22,14 +22,13 @@ const LikeButton = ({likesCount, likes, id}) => {
     const heart = liked ? <Icon name='heart'/> : <Icon name='heart outline'/>;
 
     return <Button as='div' labelPosition='right' size="mini">
-        {user &&
-            <Button color='red' size="mini" onClick={likePost}>
+
+        {(user && (user.username != username))
+            ? <Button color='red' size="mini" onClick={likePost}>
                 {heart}
                 Лайки
             </Button>
-        }
-        {!user &&
-            <Button color='red' size="mini" as={Link} to="/login">
+            : <Button color='red' size="mini" as={Link} to="/login">
                 <Icon name='heart outline'/>
             </Button>
         }

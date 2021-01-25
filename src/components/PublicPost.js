@@ -29,7 +29,7 @@ const PublicPost = ({post: {body, id, username, importance, color, flag, repetit
             <Card.Content extra>
                 {currentUserName != username &&
                 <Card.Meta>
-                    <LikeButton likesCount={likesCount} likes={likes} id={id}/>
+                    <LikeButton likesCount={likesCount} likes={likes} id={id}  username={username}/>
                     <Button as='div' labelPosition='right' size="mini">
                         <Button color='blue' size="mini" as={Link} to={`/posts/${id}`}>
                             <Icon name='comments'/>
