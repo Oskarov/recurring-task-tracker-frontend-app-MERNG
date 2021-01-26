@@ -28,7 +28,7 @@ const SingleTask = (props) => {
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Card fluid>
-                            <Card.Content>
+                            <Card.Content>header.php
                                 <Image
                                     src="https://react.semantic-ui.com/images/avatar/large/molly.png"
                                     size="mini"
