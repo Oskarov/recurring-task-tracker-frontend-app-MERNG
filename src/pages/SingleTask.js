@@ -4,6 +4,7 @@ import moment from "moment";
 import {useQuery} from '@apollo/react-hooks';
 import {Card, Grid, Image} from "semantic-ui-react";
 import LikeButton from "../components/LikeButton";
+import DeleteButton from "../components/DeleteButton";
 
 const SingleTask = (props) => {
 
@@ -28,7 +29,7 @@ const SingleTask = (props) => {
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Card fluid>
-                            <Card.Content>header.php
+                            <Card.Content>
                                 <Image
                                     src="https://react.semantic-ui.com/images/avatar/large/molly.png"
                                     size="mini"
@@ -40,6 +41,8 @@ const SingleTask = (props) => {
                         <h1>{body}</h1>
                         <hr/>
                         <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
+                        <hr/>
+                        <DeleteButton username={username} id={id} history={props.history}/>
                     </Grid.Column>
                     <Grid.Column width={6}>
                         1245678

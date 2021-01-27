@@ -21,7 +21,7 @@ function Home(props) {
                         <Transition.Group>
                             {posts && posts.map(post => (
                             <Grid.Column key={post.id} style={{marginBottom: 20}}>
-                                <PublicPost post={post}/>
+                                <PublicPost post={post} history={props.history}/>
                             </Grid.Column>
                             ))}
                         </Transition.Group>

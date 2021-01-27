@@ -4,8 +4,9 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../context/auth";
 import LikeButton from "./LikeButton";
+import DeleteButton from "./DeleteButton";
 
-const PublicPost = ({post: {body, id, username, importance, color, flag, repetitionType, repetitionRange, createdAt, updatedAt, failures, successes, comments, commentsCount, likes, likesCount}}) => {
+const PublicPost = ({history, post: {body, id, username, importance, color, flag, repetitionType, repetitionRange, createdAt, updatedAt, failures, successes, comments, commentsCount, likes, likesCount}}) => {
 
     const {user} = useContext(AuthContext);
     const currentUserName = !!user ? user.username : '';
@@ -64,9 +65,7 @@ const PublicPost = ({post: {body, id, username, importance, color, flag, repetit
                                 </Label>
                             </Button>
                         </div>
-                        <Button as='div' size="mini" color="red" className="public-card-delete">
-                            <Icon name="trash"/>
-                        </Button>
+                        <DeleteButton username={username} id={id} history={history}/>
                     </div>
 
                 </Card.Meta>
