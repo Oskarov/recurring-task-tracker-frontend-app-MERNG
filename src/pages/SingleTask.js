@@ -42,7 +42,7 @@ const SingleTask = (props) => {
                         <hr/>
                         <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
                         <hr/>
-                        <DeleteButton username={username} id={id} history={props.history}/>
+                        <DeleteButton username={username} id={id} callback={()=>props.history.push('/')}/>
                     </Grid.Column>
                     <Grid.Column width={6}>
                         1245678
