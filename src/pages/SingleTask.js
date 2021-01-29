@@ -2,9 +2,11 @@ import React from 'react'
 import gql from "graphql-tag";
 import moment from "moment";
 import {useQuery} from '@apollo/react-hooks';
-import {Card, Grid, Image} from "semantic-ui-react";
+import {Card, Grid, Image, Transition} from "semantic-ui-react";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
+import AddComment from "../components/AddComment";
+import CommentCard from "../components/CommentCard";
 
 const SingleTask = (props) => {
 
@@ -23,7 +25,7 @@ const SingleTask = (props) => {
     if (loading) {
         postMarkup = <p>Загрузка...</p>
     } else {
-        const {id, body, createdAt, updatedAt, username, likesCount, likes} = data.getPost;
+        const {id, body, createdAt, updatedAt, username, likesCount, likes, commentsCount, comments} = data.getPost;
         postMarkup = <div>
             <Grid>
                 <Grid.Row>
@@ -42,10 +44,22 @@ const SingleTask = (props) => {
                         <hr/>
                         <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
                         <hr/>
-                        <DeleteButton username={username} id={id} callback={()=>props.history.push('/')}/>
+                        <DeleteButton username={username} id={id} callback={() => props.history.push('/')}/>
                     </Grid.Column>
-                    <Grid.Column width={6}>
-                        1245678
+                    <Grid.Column width={10}>
+                        <AddComment id={id}/>
+                        <hr/>
+                        Комментариев к записи: {commentsCount}
+
+                        {(commentsCount > 0) && <>
+                            <hr/>
+                            <Transition.Group>
+                                {comments.map(comment => {
+                                    return <CommentCard comment={comment} postId={id}/>
+                                })}
+                            </Transition.Group>
+                        </>
+                        }
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

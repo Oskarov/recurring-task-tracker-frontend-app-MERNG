@@ -15,11 +15,11 @@ const DeleteButton = ({id, username, callback}) => {
         variables: {postId: id},
         update(proxy) {
             setConfirmOpen(false);
-            const data = proxy.readQuery({
+            const cData = proxy.readQuery({
                 query: FETCH_POSTS_QUERY
-            })
-            data.getPosts = data.getPosts.filter(p => p.id !== id);
-            proxy.writeQuery({query: FETCH_POSTS_QUERY, data});
+            });
+            const getPosts = cData.getPosts.filter(p => p.id !== id);
+            proxy.writeQuery({query: FETCH_POSTS_QUERY, data: { getPosts: getPosts}});
             if (callback) callback();
         }
     })

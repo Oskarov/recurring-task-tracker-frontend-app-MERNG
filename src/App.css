@@ -14,3 +14,18 @@
 .public-card-delete > i{
     margin: 0!important;
 }
+
+.comment-delete{
+    position: absolute;
+    right: 2px;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-delete > i{
+    margin: 0!important;
+}
