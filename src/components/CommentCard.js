@@ -15,18 +15,24 @@ const CommentCard = ({comment, postId}) => {
         variables: {postId, commentId: comment.id},
         update(proxy) {
             setConfirmOpen(false);
-            const cData = proxy.readQuery({
+
+            let data1 = proxy.readQuery({
                 query: FETCH_TASK_QUERY, variables: {
                     postId
                 }
             });
-            console.log(cData);
-            cData.getPost.comments = cData.getPost.comments.filter(c => c.id !== comment.id );
-            proxy.writeQuery({query: FETCH_TASK_QUERY, variables: {postId},  data: { cData }});
+            const comments1 = data1.getPost.comments.filter(c => c.id !== comment.id);
+            const leng = comments1.length;
+            console.log(data1);
+            proxy.writeQuery({
+                query: FETCH_TASK_QUERY, variables: {
+                    postId
+                }, data: {getPost: {...data1.getPost, comments: comments1, commentsCount: leng}}
+            });
         }
     })
 
-    if (user && user.username == comment.username){
+    if (user && user.username == comment.username) {
         deleteCommentButton = <>
             <>
                 <Button as='div' size="mini" className="comment-delete" onClick={() => {
