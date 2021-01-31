@@ -7,7 +7,6 @@ import { FETCH_POSTS_QUERY} from "../util/graphql";
 function Home(props) {
     const {loading, data} = useQuery(FETCH_POSTS_QUERY);
     let posts = !!data ? data.getPosts : [];
-    console.log(data);
 
     return (
         <div>

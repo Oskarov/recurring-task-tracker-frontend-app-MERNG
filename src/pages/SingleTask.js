@@ -47,7 +47,7 @@ const SingleTask = (props) => {
                         <DeleteButton username={username} id={id} callback={() => props.history.push('/')}/>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <AddComment id={id}/>
+                        <AddComment postId={id}/>
                         <hr/>
                         Комментариев к записи: {commentsCount}
 
@@ -55,7 +55,7 @@ const SingleTask = (props) => {
                             <hr/>
                             <Transition.Group>
                                 {comments.map(comment => {
-                                    return <CommentCard comment={comment} postId={id}/>
+                                    return <CommentCard comment={comment} postId={id} key={comment.id}/>
                                 })}
                             </Transition.Group>
                         </>
