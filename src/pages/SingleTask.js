@@ -7,6 +7,7 @@ import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
 import AddComment from "../components/AddComment";
 import CommentCard from "../components/CommentCard";
+import EditButton from "../components/EditButton";
 
 const SingleTask = (props) => {
 
@@ -45,6 +46,7 @@ const SingleTask = (props) => {
                         <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
                         <hr/>
                         <DeleteButton username={username} id={id} callback={() => props.history.push('/')}/>
+                        <EditButton username={username} id={id}/>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <AddComment postId={id}/>

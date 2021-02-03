@@ -13,6 +13,7 @@ import UserRoute from "./util/UserRoute";
 import MyTasks from "./pages/MyTasks";
 import Error from "./pages/Error";
 import SingleTask from "./pages/SingleTask";
+import EditTask from "./pages/EditTask";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                         <AuthRoute exact path='/login' component={Login}/>
                         <UserRoute exact path='/new-task' component={NewTask}/>
                         <UserRoute exact path='/my-tasks' component={MyTasks}/>
+                        <UserRoute exact path='/edit/:postId' component={EditTask}/>
                         <Route exact path="/posts/:postId" component={SingleTask}/>
                         <Route component={Error}/>
                     </Switch>
