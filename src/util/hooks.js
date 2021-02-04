@@ -10,6 +10,13 @@ export const useForm = (callback, initialState = {}) => {
         });
     }
 
+    const changeBunchValues = (bunch) =>{
+        setValues({
+            ...values,
+            ...bunch
+        });
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
         callback();
@@ -18,6 +25,7 @@ export const useForm = (callback, initialState = {}) => {
     return {
         onChange,
         onSubmit,
+        changeBunchValues,
         values
     }
 }

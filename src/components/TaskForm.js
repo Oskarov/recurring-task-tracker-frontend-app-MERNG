@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Form, Button} from "semantic-ui-react";
 import {useForm} from "../util/hooks";
-import {useMutation} from '@apollo/react-hooks'
+import {useMutation, useQuery} from '@apollo/react-hooks'
 import {CREATE_TASK_MUTATION, FETCH_POSTS_QUERY} from "../util/graphql";
+import gql from "graphql-tag";
 
 const importanceOptions = [
     {key: '0', text: 'Обыденная', value: 0},
@@ -16,7 +17,20 @@ const repetitionOptions = [
 ]
 
 const TaskForm = (props) => {
-    const {values, onChange, onSubmit} = useForm(savePost, {
+    const postId = props.postId || null;
+
+    let initialState = {
+            body: '',
+            isPrivate: true,
+            importance: 0,
+            color: '#000000',
+            flag: '',
+            repetitionType: 0,
+            repetitionRange: 7,
+        }
+
+
+    const {values, onChange, onSubmit, changeBunchValues} = useForm(savePost, {
         body: '',
         isPrivate: true,
         importance: 0,
@@ -25,6 +39,23 @@ const TaskForm = (props) => {
         repetitionType: 0,
         repetitionRange: 7,
     });
+
+    const {loading, data} = useQuery(FETCH_TASK_QUERY, {
+        variables: {
+            postId
+        },
+        update() {
+            changeBunchValues(data.getPost);
+        },
+        onError(ApolloError) {
+        }
+    });
+
+    useEffect(() => {
+        if (!loading){
+            changeBunchValues(data.getPost);
+        }
+    }, [data]);
 
     const [errors, setErrors] = useState({});
 
@@ -136,9 +167,38 @@ const TaskForm = (props) => {
                 onChange={onChange}
                 placeholder="тег"
             />
-            <Button color="teal" type="submit">Создать пост</Button>
+            <Button color="teal" type="submit">Создать задачу</Button>
         </Form>
     )
 }
+
+const FETCH_TASK_QUERY = gql`
+    query($postId: ID!){
+        getPost(postId: $postId){
+            id
+            body
+            createdAt
+            updatedAt
+            isPrivate
+            importance
+            color
+            flag
+            repetitionType
+            repetitionRange
+            username
+            likesCount
+            likes{
+                username
+            }
+            commentsCount
+            comments{
+                id
+                body
+                username
+                createdAt
+            }
+        }
+    }
+`
 
 export default TaskForm;
