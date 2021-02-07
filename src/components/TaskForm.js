@@ -20,14 +20,14 @@ const TaskForm = (props) => {
     const postId = props.postId || null;
 
     let initialState = {
-            body: '',
-            isPrivate: true,
-            importance: 0,
-            color: '#000000',
-            flag: '',
-            repetitionType: 0,
-            repetitionRange: 7,
-        }
+        body: '',
+        isPrivate: true,
+        importance: 0,
+        color: '#000000',
+        flag: '',
+        repetitionType: 0,
+        repetitionRange: 7,
+    }
 
 
     const {values, onChange, onSubmit, changeBunchValues} = useForm(savePost, {
@@ -39,27 +39,22 @@ const TaskForm = (props) => {
         repetitionType: 0,
         repetitionRange: 7,
     });
-
+    
     const {loading, data} = useQuery(FETCH_TASK_QUERY, {
         variables: {
             postId
         },
-        update() {
-            changeBunchValues(data.getPost);
-        },
-        onError(ApolloError) {
-        }
     });
 
     useEffect(() => {
-        if (!loading){
+        if (!loading) {
             changeBunchValues(data.getPost);
         }
     }, [data]);
 
     const [errors, setErrors] = useState({});
 
-    const [createTask, {error}] = useMutation(CREATE_TASK_MUTATION, {
+    const [createTask] = useMutation(CREATE_TASK_MUTATION, {
         variables: values,
         update(proxy, result) {
             const cache = proxy.readQuery({
@@ -77,8 +72,30 @@ const TaskForm = (props) => {
         }
     });
 
+    const [editTask] = useMutation(EDIT_TASK_MUTATION, {
+        variables: {...values, postId},
+        update(proxy, result) {
+            const cache = proxy.readQuery({
+                query: FETCH_POSTS_QUERY
+            });
+            cache.getPosts = [...cache.getPosts, result.data.editPost];
+            proxy.writeQuery({
+                query: FETCH_POSTS_QUERY,
+                data: cache
+            });
+            props.history.push('/');
+        },
+        onError(ApolloError) {
+            transferErrors(ApolloError.graphQLErrors[0].extensions.exception.errors);
+        }
+    });
+
     function savePost() {
-        createTask();
+        if (!postId) {
+            createTask();
+        } else {
+            editTask();
+        }
     }
 
     const transferErrors = (errors) => {
@@ -200,5 +217,56 @@ const FETCH_TASK_QUERY = gql`
         }
     }
 `
+
+export const EDIT_TASK_MUTATION =  gql`
+    mutation editPost(
+        $postId: ID!
+        $body: String!
+        $isPrivate: Boolean
+        $importance: Int
+        $color: String
+        $flag: String
+        $repetitionType: Int
+        $repetitionRange: Int
+    ){
+        editPost(
+            postId: $postId
+            postInput: {
+                body: $body
+                isPrivate: $isPrivate
+                importance: $importance
+                color: $color
+                flag: $flag
+                repetitionType: $repetitionType
+                repetitionRange: $repetitionRange
+            }
+        ){
+            id
+            body
+            createdAt
+            updatedAt
+            isPrivate
+            importance
+            color
+            flag
+            repetitionType
+            repetitionRange
+            username
+            likesCount
+            likes{
+                username
+            }
+            commentsCount
+            comments{
+                id
+                body
+                username
+                createdAt
+            }
+        }
+    }
+`
+
+
 
 export default TaskForm;

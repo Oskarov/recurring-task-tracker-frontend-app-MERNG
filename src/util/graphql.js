@@ -23,6 +23,25 @@ export const CREATE_TASK_MUTATION = gql`
             id
             body
             createdAt
+            updatedAt
+            isPrivate
+            importance
+            color
+            flag
+            repetitionType
+            repetitionRange
+            username
+            likesCount
+            likes{
+                username
+            }
+            commentsCount
+            comments{
+                id
+                body
+                username
+                createdAt
+            }
         }
     }
 `
@@ -35,6 +54,7 @@ export const FETCH_POSTS_QUERY = gql`
             createdAt
             username
             likesCount
+            isPrivate
             likes {
                 username
             }

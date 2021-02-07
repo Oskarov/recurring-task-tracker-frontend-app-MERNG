@@ -6,12 +6,14 @@ import {AuthContext} from "../context/auth";
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
 
-const PublicPost = ({history, post: {body, id, username, importance, color, flag, repetitionType, repetitionRange, createdAt, updatedAt, failures, successes, comments, commentsCount, likes, likesCount}}) => {
+const PublicPost = ({history, post: {body, id, isPrivate, username, importance, color, flag, repetitionType, repetitionRange, createdAt, updatedAt, failures, successes, comments, commentsCount, likes, likesCount}}) => {
 
     const {user} = useContext(AuthContext);
     const currentUserName = !!user ? user.username : '';
 
-    return (
+    console.log()
+
+    const postTemplate = !isPrivate ?
         <Card fluid>
             <Card.Content>
                 <Image
@@ -30,7 +32,7 @@ const PublicPost = ({history, post: {body, id, username, importance, color, flag
             <Card.Content extra>
                 {currentUserName != username &&
                 <Card.Meta>
-                    <LikeButton likesCount={likesCount} likes={likes} id={id}  username={username}/>
+                    <LikeButton likesCount={likesCount} likes={likes} id={id} username={username}/>
                     <Button as='div' labelPosition='right' size="mini">
                         <Button color='blue' size="mini" as={Link} to={`/posts/${id}`}>
                             <Icon name='comments'/>
@@ -43,7 +45,7 @@ const PublicPost = ({history, post: {body, id, username, importance, color, flag
                 </Card.Meta>
                 }
                 {currentUserName == username &&
-                <Card.Meta >
+                <Card.Meta>
                     <div className="public-card-cont">
                         <div>
                             <Button as='div' labelPosition='right' size="mini" disabled>
@@ -71,8 +73,9 @@ const PublicPost = ({history, post: {body, id, username, importance, color, flag
                 </Card.Meta>
                 }
             </Card.Content>
-        </Card>
-    );
+        </Card> : ''
+
+    return postTemplate;
 };
 
 export default PublicPost;
