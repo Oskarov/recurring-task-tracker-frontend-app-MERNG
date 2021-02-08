@@ -19,17 +19,6 @@ const repetitionOptions = [
 const TaskForm = (props) => {
     const postId = props.postId || null;
 
-    let initialState = {
-        body: '',
-        isPrivate: true,
-        importance: 0,
-        color: '#000000',
-        flag: '',
-        repetitionType: 0,
-        repetitionRange: 7,
-    }
-
-
     const {values, onChange, onSubmit, changeBunchValues} = useForm(savePost, {
         body: '',
         isPrivate: true,
@@ -39,15 +28,16 @@ const TaskForm = (props) => {
         repetitionType: 0,
         repetitionRange: 7,
     });
-    
+
     const {loading, data} = useQuery(FETCH_TASK_QUERY, {
         variables: {
             postId
         },
+        skip: !postId
     });
 
     useEffect(() => {
-        if (!loading) {
+        if (!loading && !!data) {
             changeBunchValues(data.getPost);
         }
     }, [data]);
@@ -184,7 +174,7 @@ const TaskForm = (props) => {
                 onChange={onChange}
                 placeholder="тег"
             />
-            <Button color="teal" type="submit">Создать задачу</Button>
+            <Form.Button color="teal" type="submit">Создать задачу</Form.Button>
         </Form>
     )
 }
